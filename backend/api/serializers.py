@@ -146,10 +146,8 @@ class RecipeSerializer(ModelSerializer):
 
     def get_ingredients(self, recipe: Recipe) -> QuerySet[dict]:
 
-        ingredients = recipe.ingredients.values(
-            'id', 'name', 'measurement_unit', amount=F('recipe__amount')
-        )
-        return ingredients
+        return recipe.ingredients.values(
+            'id', 'name', 'measurement_unit', amount=F('recipe__amount'))
 
     def get_is_favorited(self, recipe: Recipe) -> bool:
 

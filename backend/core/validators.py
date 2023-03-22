@@ -2,7 +2,7 @@
 """
 from re import compile
 from string import hexdigits
-from typing import Dict, List, TYPE_CHECKING, Optional, Union
+from typing import Dict, List, Optional, TYPE_CHECKING, Union
 
 from django.core.exceptions import ValidationError
 from django.utils.deconstruct import deconstructible

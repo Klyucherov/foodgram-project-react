@@ -34,15 +34,10 @@ class AuthorStaffOrReadOnly(BanPermission):
             view: APIRootView,
             obj: Model
     ) -> bool:
-        return (
-                request.method in SAFE_METHODS
+        return (request.method in SAFE_METHODS
                 or request.user.is_authenticated
                 and request.user.is_active
-                and (
-                        request.user == obj.author
-                        or request.user.is_staff
-                )
-        )
+                and (request.user == obj.author or request.user.is_staff))
 
 
 class AdminOrReadOnly(BanPermission):
@@ -56,12 +51,10 @@ class AdminOrReadOnly(BanPermission):
             request: WSGIRequest,
             view: APIRootView
     ) -> bool:
-        return (
-                request.method in SAFE_METHODS
+        return (request.method in SAFE_METHODS
                 or request.user.is_authenticated
                 and request.user.is_active
-                and request.user.is_staff
-        )
+                and request.user.is_staff)
 
 
 class OwnerUserOrReadOnly(BanPermission):
@@ -76,10 +69,8 @@ class OwnerUserOrReadOnly(BanPermission):
             view: APIRootView,
             obj: Model
     ) -> bool:
-        return (
-                request.method in SAFE_METHODS
+        return (request.method in SAFE_METHODS
                 or request.user.is_authenticated
                 and request.user.is_active
                 and request.user == obj.author
-                or request.user.is_staff
-        )
+                or request.user.is_staff)
