@@ -15,6 +15,7 @@ EMPTY_VALUE_DISPLAY = 'Значение не указано'
 class IngredientInline(TabularInline):
     model = AmountIngredient
     extra = 2
+    min_num = 1
 
 
 @register(AmountIngredient)

@@ -1,13 +1,17 @@
+# импорты из стандартной библиотеки
 from collections import OrderedDict
 
-from core.services import recipe_amount_ingredients_set
-from core.validators import ingredients_exist_validator, tags_exist_validator
+# импорты сторонних библиотек
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.db.models import F, QuerySet
 from drf_extra_fields.fields import Base64ImageField
-from recipes.models import Ingredient, Recipe, Tag
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
+
+# импорты модулей текущего проекта
+from core.services import recipe_amount_ingredients_set
+from core.validators import ingredients_exist_validator, tags_exist_validator
+from recipes.models import Ingredient, Recipe, Tag
 
 User = get_user_model()
 
