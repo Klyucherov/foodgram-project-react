@@ -108,4 +108,12 @@ sudo docker-compose up -d --build
     - Проект будет доступен по вашему IP
 
 ## Проект в интернете
-Проект запущен и доступен по [адресу](http://84.201.154.76/recipes)
+Проект запущен и доступен по [адресу](http://158.160.7.209/recipes)
+login: admin@mail.ru
+pass: admin
+
+##Админка
+http://158.160.7.209/admin/
+login: Admin
+pass: admin
+
