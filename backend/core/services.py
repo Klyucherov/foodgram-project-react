@@ -1,25 +1,28 @@
 """Модуль вспомогательных функций.
 """
-from django.db import transaction
+from typing import TYPE_CHECKING
 
 from recipes.models import AmountIngredient, Recipe
 
+if TYPE_CHECKING:
+    from recipes.models import Ingredient
 
-def recipe_amount_ingredients_set(recipe: Recipe,
-                                  ingredients: list[dict]) -> None:
-    amount_ingredients = []
 
-    for ingredient in ingredients:
-        amount_ingredient, created = AmountIngredient.objects.get_or_create(
+def recipe_amount_ingredients_set(
+    recipe: Recipe,
+    ingredients: dict[int, tuple['Ingredient', int]]
+) -> None:
+
+    objs = []
+
+    for ingredient, amount in ingredients.values():
+        objs.append(AmountIngredient(
             recipe=recipe,
-            ingredients=ingredient['ingredient'],
-            amount=ingredient['amount']
-        )
-        if created:
-            amount_ingredients.append(amount_ingredient)
+            ingredients=ingredient,
+            amount=amount
+        ))
 
-    with transaction.atomic():
-        AmountIngredient.objects.bulk_create(amount_ingredients)
+    AmountIngredient.objects.bulk_create(objs)
 
 
 incorrect_layout = str.maketrans(

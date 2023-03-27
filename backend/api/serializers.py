@@ -193,7 +193,7 @@ class RecipeSerializer(ModelSerializer):
     def create(self, validated_data: dict) -> Recipe:
 
         tags: list[int] = validated_data.pop('tags')
-        ingredients: list[dict] = validated_data.pop('ingredients')
+        ingredients: dict[int, tuple] = validated_data.pop('ingredients')
         recipe = Recipe.objects.create(**validated_data)
         recipe.tags.set(tags)
         recipe_amount_ingredients_set(recipe, ingredients)

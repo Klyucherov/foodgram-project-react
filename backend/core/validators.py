@@ -92,21 +92,24 @@ def ingredients_exist_validator(
         ingredients: List[Dict[str, Union[str, int]]],
         Ingredient: 'Ingredient'
 ) -> List[Dict[str, Union[int, 'Ingredient']]]:
-    ings_ids = [None] * len(ingredients)
 
-    for idx, ing in enumerate(ingredients):
-        ingredients[idx]['amount'] = int(ingredients[idx]['amount'])
-        if ingredients[idx]['amount'] < 1:
+    valid_ings = {}
+
+    for ing in ingredients:
+        if not (isinstance(ing['amount'], int) or ing['amount'].isdigit()):
             raise ValidationError('Неправильное количество ингидиента')
-        ings_ids[idx] = ing.pop('id', 0)
 
-    ings_in_db = Ingredient.objects.filter(id__in=ings_ids).order_by('pk')
-    ings_ids.sort()
+        amount = valid_ings.get(ing['id'], 0) + int(ing['amount'])
+        valid_ings[ing['id']] = amount
 
-    for idx, id in enumerate(ings_ids):
-        ingredient: 'Ingredient' = ings_in_db[idx]
-        if ingredient.id != id:
-            raise ValidationError('Ингридент не существует')
+    if not valid_ings:
+        raise ValidationError('Неправильные ингидиенты')
 
-        ingredients[idx]['ingredient'] = ingredient
-    return ingredients
+    db_ings = Ingredient.objects.filter(pk__in=valid_ings.keys())
+    if not db_ings:
+        raise ValidationError('Неправильные ингидиенты')
+
+    for ing in db_ings:
+        valid_ings[ing.pk] = (ing, valid_ings[ing.pk])
+
+    return valid_ings
