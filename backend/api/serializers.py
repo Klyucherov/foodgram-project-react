@@ -5,6 +5,7 @@ from collections import OrderedDict
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.db.models import F, QuerySet
+from django.db.transaction import atomic
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
@@ -188,6 +189,7 @@ class RecipeSerializer(ModelSerializer):
         })
         return data
 
+    @atomic
     def create(self, validated_data: dict) -> Recipe:
 
         tags: list[int] = validated_data.pop('tags')
@@ -197,6 +199,7 @@ class RecipeSerializer(ModelSerializer):
         recipe_amount_ingredients_set(recipe, ingredients)
         return recipe
 
+    @atomic
     def update(self, recipe: Recipe, validated_data: dict):
 
         tags = validated_data.pop('tags')

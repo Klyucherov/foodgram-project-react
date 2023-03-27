@@ -109,11 +109,11 @@ sudo docker-compose up -d --build
 
 ## Проект в интернете
 Проект запущен и доступен по [адресу](http://158.160.7.209/recipes)
-login: admin@mail.ru
-pass: admin
+- login: admin@mail.ru
+- pass: admin
 
-##Админка
+## Админка
 http://158.160.7.209/admin/
-login: Admin
-pass: admin
+- login: Admin
+- pass: admin
 
