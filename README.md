@@ -117,3 +117,50 @@ http://158.160.7.209/admin/
 - login: Admin
 - pass: admin
 
+
+## Сделал проверку на amount в 3 местах
+
+- В моделях 
+```
+    amount = PositiveSmallIntegerField(
+        verbose_name='Количество',
+        default=0,
+        validators=(
+            MinValueValidator(
+                Limits.MIN_AMOUNT_INGREDIENTS, # 1
+                'Нужно хоть какое-то количество.',
+            ),
+            MaxValueValidator(
+                Limits.MAX_AMOUNT_INGREDIENTS, # 1001
+                'Слишком много!',
+            ),
+        ),
+    )
+```
+
+- api/serializers.py
+
+```
+    # Добавил декоратор atomic, для того, что бы создание не проходило,
+     если что-то не так, тоже самое для update
+     
+    @atomic
+    def create(self, validated_data: dict) -> Recipe:
+
+        tags: list[int] = validated_data.pop('tags')
+        ingredients: dict[int, tuple] = validated_data.pop('ingredients')
+        recipe = Recipe.objects.create(**validated_data)
+        recipe.tags.set(tags)
+        recipe_amount_ingredients_set(recipe, ingredients)
+        return recipe
+```
+
+- core/validators.py
+
+```
+    В функции ingredients_exist_validator добавил проверку
+    
+            if len(ing['amount']) > 1001:
+            raise ValidationError('Неправильное количество ингидиента')
+```
+- Прошу ревьюера принять и простить ;(

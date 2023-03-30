@@ -38,7 +38,7 @@ class Limits(IntEnum):
     # Минимальное количество ингридиентов для рецепта
     MIN_AMOUNT_INGREDIENTS = 1
     # Максимальное количество ингридиентов для рецепта
-    MAX_AMOUNT_INGREDIENTS = 32
+    MAX_AMOUNT_INGREDIENTS = 1001
 
 
 class UrlQueries(str, Enum):
