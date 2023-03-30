@@ -131,7 +131,7 @@ http://158.160.7.209/admin/
                 'Нужно хоть какое-то количество.',
             ),
             MaxValueValidator(
-                Limits.MAX_AMOUNT_INGREDIENTS, # 1001
+                Limits.MAX_AMOUNT_INGREDIENTS, # 10001
                 'Слишком много!',
             ),
         ),
@@ -155,12 +155,4 @@ http://158.160.7.209/admin/
         return recipe
 ```
 
-- core/validators.py
-
-```
-    В функции ingredients_exist_validator добавил проверку
-    
-            if len(ing['amount']) > 1001:
-            raise ValidationError('Неправильное количество ингидиента')
-```
 - Прошу ревьюера принять и простить ;(

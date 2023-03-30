@@ -99,9 +99,6 @@ def ingredients_exist_validator(
         if not (isinstance(ing['amount'], int) or ing['amount'].isdigit()):
             raise ValidationError('Неправильное количество ингидиента')
 
-        if len(ing['amount']) > 1001:
-            raise ValidationError('Неправильное количество ингидиента')
-
         amount = valid_ings.get(ing['id'], 0) + int(ing['amount'])
         valid_ings[ing['id']] = amount
 
