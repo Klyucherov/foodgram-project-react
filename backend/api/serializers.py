@@ -3,10 +3,10 @@ from collections import OrderedDict
 
 # импорты сторонних библиотек
 from django.contrib.auth import get_user_model
-from django.core.exceptions import ValidationError
 from django.db.models import F, QuerySet
 from django.db.transaction import atomic
 from drf_extra_fields.fields import Base64ImageField
+from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
 # импорты модулей текущего проекта
@@ -177,7 +177,7 @@ class RecipeSerializer(ModelSerializer):
         ingredients: list[dict] = self.initial_data.get('ingredients')
 
         if not tags_ids or not ingredients:
-            raise ValidationError('Недостаточно данных.')
+            raise serializers.ValidationError('Недостаточно данных.')
 
         tags_exist_validator(tags_ids, Tag)
         ingredients = ingredients_exist_validator(ingredients, Ingredient)

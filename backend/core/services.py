@@ -1,7 +1,8 @@
 """Модуль вспомогательных функций.
 """
 from typing import TYPE_CHECKING
-from django.core.exceptions import ValidationError
+from rest_framework import serializers
+
 from recipes.models import AmountIngredient, Recipe
 
 
@@ -18,7 +19,9 @@ def recipe_amount_ingredients_set(
 
     for ingredient, amount in ingredients.values():
         if amount > 10001:
-            raise ValidationError('Неправильное количество ингидиента')
+            raise serializers.ValidationError('Неправильное количество ингидиента')
+        if amount <= 0:
+            raise serializers.ValidationError('Колличество ингридиентов должно быть больше нуля')
         objs.append(AmountIngredient(
             recipe=recipe,
             ingredients=ingredient,
